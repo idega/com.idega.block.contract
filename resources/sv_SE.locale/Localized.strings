@@ -1,0 +1,14 @@
+#Tue Sep 09 17:03:06 CEST 2003
+=
+created=Created
+ended=Ended
+iw.component.com.idega.block.contract.presentation.ContractViewer.name=ContractViewer
+iw.component.com.idega.block.contract.presentation.SimpleContractCreator.name=SimpleContractCreator
+no_contracts=No contracts
+printed=Printed
+rejected=Rejected
+scc.createcon=Create contract
+scc.selectcon=Select contract\:
+signed=Signed
+status=Status
+terminated=Terminated
