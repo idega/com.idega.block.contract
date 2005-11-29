@@ -1,5 +1,5 @@
 /*
- * $Id: ContractFinder.java,v 1.10 2003/10/03 01:41:59 tryggvil Exp $
+ * $Id: ContractFinder.java,v 1.11 2005/11/29 12:53:58 laddi Exp $
  *
  * Copyright (C) 2001 Idega hf. All Rights Reserved.
  *
@@ -279,7 +279,7 @@ public abstract class ContractFinder
 				while(iter.hasNext())
 				{
 					Contract C = (Contract) iter.next();
-					H.put( (Integer)C.getPrimaryKey(), C);
+					H.put(C.getPrimaryKey(), C);
 				}
 				return H;
 			}

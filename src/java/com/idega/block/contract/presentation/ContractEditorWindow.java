@@ -495,7 +495,7 @@ private IWResourceBundle iwrb;
 				  T.add(input,2,row);
 				}
 				else{
-					String value = (String) eContract.getMetaData(String.valueOf(tag.getID()));
+					String value = eContract.getMetaData(String.valueOf(tag.getID()));
 					if(value !=null)
 					  T.add(formatText(value),2,row);
 				}
