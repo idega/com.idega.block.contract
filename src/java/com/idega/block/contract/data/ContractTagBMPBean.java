@@ -1,6 +1,6 @@
 /*
 
- * $Id: ContractTagBMPBean.java,v 1.8 2005/11/29 12:53:58 laddi Exp $
+ * $Id: ContractTagBMPBean.java,v 1.9 2006/02/20 11:06:37 laddi Exp $
 
  *
 
@@ -186,7 +186,7 @@ public class ContractTagBMPBean extends com.idega.data.GenericEntity implements 
 
 	public Collection ejbFindAllByCategory(int catID) throws FinderException {
 		return super.idoFindPKsByQuery(
-			idoQueryGetSelect().appendWhereEquals(this.getColumnNameCategoryId(), catID));
+			idoQueryGetSelect().appendWhereEquals(ContractTagBMPBean.getColumnNameCategoryId(), catID));
 	}
 	
 	public Collection ejbFindAllByNameAndCategory(String name, int categoryId) throws javax.ejb.FinderException{

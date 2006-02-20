@@ -1,5 +1,5 @@
 /*
- * $Id: ContractBMPBean.java,v 1.24 2004/02/13 13:56:08 gimmi Exp $
+ * $Id: ContractBMPBean.java,v 1.25 2006/02/20 11:06:37 laddi Exp $
  *
  * Copyright (C) 2001 Idega hf. All Rights Reserved.
  *
@@ -260,7 +260,7 @@ public class ContractBMPBean extends com.idega.data.GenericEntity implements com
 	public static void main(String args[]){
 		Map map = new HashMap();
 		map.put("name", "Roar");
-		System.out.println(new ContractBMPBean().setUnsetFields(map, "Enter the name: <name/>. Age: <age/>."));
+		System.out.println(ContractBMPBean.setUnsetFields(map, "Enter the name: <name/>. Age: <age/>."));
 	}
 
 	/**
@@ -364,14 +364,14 @@ public class ContractBMPBean extends com.idega.data.GenericEntity implements com
 		return null;
 	}
 	public Collection ejbFindAllByCategory(int iCategoryID) throws FinderException {
-		return super.idoFindPKsByQuery(idoQueryGetSelect().appendWhereEquals(this.getColumnNameCategoryId(), iCategoryID));
+		return super.idoFindPKsByQuery(idoQueryGetSelect().appendWhereEquals(ContractBMPBean.getColumnNameCategoryId(), iCategoryID));
 	}
 
 	public Collection ejbFindAllByUser(int userID) throws FinderException {
-		return super.idoFindPKsByQuery(idoQueryGetSelect().appendWhereEquals(this.getColumnNameUserId(), userID));
+		return super.idoFindPKsByQuery(idoQueryGetSelect().appendWhereEquals(ContractBMPBean.getColumnNameUserId(), userID));
 	}
 	public Collection ejbFindAllByCategoryAndStatus(int iCategoryID, String status) throws FinderException {
-		return super.idoFindPKsByQuery(idoQueryGetSelect().appendWhereEquals(this.getColumnNameCategoryId(), iCategoryID).appendAndEquals(getColumnNameStatus(), status));
+		return super.idoFindPKsByQuery(idoQueryGetSelect().appendWhereEquals(ContractBMPBean.getColumnNameCategoryId(), iCategoryID).appendAndEquals(getColumnNameStatus(), status));
 	}
 	public boolean ejbHomeSetStatus(int conID, String status) throws FinderException, IDOLookupException {
 		Contract C = ((ContractHome)IDOLookup.getHome(Contract.class)).findByPrimaryKey(new Integer(conID));

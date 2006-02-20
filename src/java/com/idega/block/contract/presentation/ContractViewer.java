@@ -99,19 +99,19 @@ public class ContractViewer extends Block implements Builderaware {
 			ne.setWindowToOpen(ContractEditorWindow.class);
 			ne.addParameter(ContractEditorWindow.prmCategory, iCategoryId);
 			T.add(ne, 1, 1);
-			T.add(T.getTransparentCell(iwc), 1, 1);
+			T.add(Table.getTransparentCell(iwc), 1, 1);
 			Link text = new Link(core.getImage("/shared/text.gif", "text"));
 			text.setWindowToOpen(ContractTextWindow.class);
 			text.addParameter(ContractTextSetter.prmCategoryId, iCategoryId);
 			T.add(text, 1, 1);
-			T.add(T.getTransparentCell(iwc), 1, 1);
+			T.add(Table.getTransparentCell(iwc), 1, 1);
 			Link change = new Link(core.getImage("/shared/edit.gif", "edit"));
 			change.setWindowToOpen(ContractEditorWindow.class);
 			change.addParameter(ContractEditorWindow.prmCategory, iCategoryId);
 			change.addParameter(ContractEditorWindow.prmObjInstId, getICObjectInstanceID());
 			T.add(change, 1, 1);
 			if (enableDelete) {
-				T.add(T.getTransparentCell(iwc), 1, 1);
+				T.add(Table.getTransparentCell(iwc), 1, 1);
 				Link delete = new Link(core.getImage("/shared/delete.gif"));
 				delete.setWindowToOpen(ContractEditorWindow.class);
 				delete.addParameter(ContractEditorWindow.prmDelete, iCategoryId);
