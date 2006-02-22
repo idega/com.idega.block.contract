@@ -40,7 +40,6 @@ public class ContractTextSetter extends com.idega.presentation.PresentationObjec
 	private final static String IW_BUNDLE_IDENTIFIER = "com.idega.block.contract";
 	protected IWResourceBundle iwrb;
 	protected IWBundle iwb;
-	private String localesParameter = "iw_locales";
 	private String bottomThickness = "8";
 	private boolean isAdmin;
 	public final static String prmCategoryId = "con_cat";
