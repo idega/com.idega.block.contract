@@ -16,10 +16,11 @@ import com.idega.block.contract.data.Contract;
 import com.idega.block.contract.data.ContractCategory;
 import com.idega.block.contract.data.ContractTag;
 import com.idega.block.media.servlet.MediaServlet;
+import com.idega.business.IBOLookup;
 import com.idega.core.file.data.ICFile;
-import com.idega.data.IDOLookup;
 import com.idega.idegaweb.IWBundle;
 import com.idega.idegaweb.IWResourceBundle;
+import com.idega.idegaweb.block.presentation.Builderaware;
 import com.idega.idegaweb.presentation.IWAdminWindow;
 import com.idega.presentation.IWContext;
 import com.idega.presentation.PresentationObject;
@@ -607,7 +608,7 @@ public class ContractEditorWindow extends IWAdminWindow {
 		isAdmin = iwc.hasEditPermission(this);
 		isAdmin = true;
 		iwb = getBundle(iwc);
-		core = iwc.getIWMainApplication().getBundle(ContractViewer.IW_CORE_BUNDLE_IDENTIFIER);
+		core = iwc.getIWMainApplication().getBundle(Builderaware.IW_CORE_BUNDLE_IDENTIFIER);
 		iwrb = getResourceBundle(iwc);
 		addTitle(iwrb.getLocalizedString("contract_editor", "Contract Editor"));
 		control(iwc);
@@ -618,6 +619,6 @@ public class ContractEditorWindow extends IWAdminWindow {
 	}
 
 	public ContractService getContractService(IWContext iwc) throws RemoteException {
-		return (ContractService) IDOLookup.getServiceInstance(iwc, ContractService.class);
+		return (ContractService) IBOLookup.getServiceInstance(iwc, ContractService.class);
 	}
 }
