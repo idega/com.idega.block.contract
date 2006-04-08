@@ -1,5 +1,5 @@
 /*
- * $Id: ContractFinder.java,v 1.11 2005/11/29 12:53:58 laddi Exp $
+ * $Id: ContractFinder.java,v 1.12 2006/04/08 12:14:36 laddi Exp $
  *
  * Copyright (C) 2001 Idega hf. All Rights Reserved.
  *
@@ -31,7 +31,7 @@ import com.idega.core.component.data.ICObjectInstanceHome;
 import com.idega.data.EntityFinder;
 import com.idega.data.IDOLookup;
 import com.idega.data.IDOLookupException;
-;
+
 /**
 
  * Title:        idegaclasses
