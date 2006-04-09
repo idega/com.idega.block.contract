@@ -48,35 +48,36 @@ public class ContractViewer extends Block implements Builderaware {
 	}
 
 	protected void control(IWContext iwc) {
-		iwrb = getResourceBundle(iwc);
-		iwb = getBundle(iwc);
+		this.iwrb = getResourceBundle(iwc);
+		this.iwb = getBundle(iwc);
 		boolean info = false;
 		Table T = new Table();
 		T.setCellpadding(0);
 		T.setCellspacing(0);
-		if (iCategoryId <= 0) {
+		if (this.iCategoryId <= 0) {
 			String sCategoryId = iwc.getParameter(prmCategoryId);
-			if (sCategoryId != null)
-				iCategoryId = Integer.parseInt(sCategoryId);
+			if (sCategoryId != null) {
+				this.iCategoryId = Integer.parseInt(sCategoryId);
+			}
 			else if (getICObjectInstanceID() > 0) {
-				iCategoryId = ContractFinder.getObjectInstanceCategoryId(getICObjectInstanceID(), true);
-				if (iCategoryId <= 0) {
-					newobjinst = true;
+				this.iCategoryId = ContractFinder.getObjectInstanceCategoryId(getICObjectInstanceID(), true);
+				if (this.iCategoryId <= 0) {
+					this.newobjinst = true;
 				}
 			}
 		}
-		if (isAdmin) {
-			T.add(getAdminPart(iCategoryId, false, newobjinst, info, iwc), 1, 1);
+		if (this.isAdmin) {
+			T.add(getAdminPart(this.iCategoryId, false, this.newobjinst, info, iwc), 1, 1);
 		}
-		if (iwc.getParameter(conPrm) != null) {
-			this.sGlobalStatus = (iwc.getParameter(conPrm));
-			iwc.setSessionAttribute(sessConPrm, sGlobalStatus);
+		if (iwc.getParameter(this.conPrm) != null) {
+			this.sGlobalStatus = (iwc.getParameter(this.conPrm));
+			iwc.setSessionAttribute(this.sessConPrm, this.sGlobalStatus);
 		}
-		else if (iwc.getSessionAttribute(sessConPrm) != null) {
-			this.sGlobalStatus = ((String) iwc.getSessionAttribute(sessConPrm));
+		else if (iwc.getSessionAttribute(this.sessConPrm) != null) {
+			this.sGlobalStatus = ((String) iwc.getSessionAttribute(this.sessConPrm));
 		}
 		T.add(statusForm(), 1, 2);
-		T.add(getContractTable(iwc, iCategoryId), 1, 3);
+		T.add(getContractTable(iwc, this.iCategoryId), 1, 3);
 		Form F = new Form();
 		F.add(T);
 		add(F);
@@ -121,8 +122,9 @@ public class ContractViewer extends Block implements Builderaware {
 		if (newObjInst) {
 			Link newLink = new Link(core.getImage("/shared/create.gif"));
 			newLink.setWindowToOpen(ContractEditorWindow.class);
-			if (newObjInst)
+			if (newObjInst) {
 				newLink.addParameter(ContractEditorWindow.prmObjInstId, getICObjectInstanceID());
+			}
 			T.add(newLink, 2, 1);
 		}
 		T.setWidth("100%");
@@ -137,11 +139,11 @@ public class ContractViewer extends Block implements Builderaware {
 	}
 
 	private PresentationObject statusForm() {
-		DropdownMenu status = statusDrop(conPrm, sGlobalStatus);
+		DropdownMenu status = statusDrop(this.conPrm, this.sGlobalStatus);
 		status.setToSubmit();
 		Edit.setStyle(status);
 		Table T = new Table(3, 1);
-		T.add(Edit.formatText(iwrb.getLocalizedString("status", "Status")), 1, 1);
+		T.add(Edit.formatText(this.iwrb.getLocalizedString("status", "Status")), 1, 1);
 		T.add(status, 2, 1);
 		T.setCellpadding(1);
 		T.setCellspacing(0);
@@ -150,7 +152,7 @@ public class ContractViewer extends Block implements Builderaware {
 	}
 
 	private PresentationObject getContractTable(IWContext iwc, int iCategoryId) {
-		Collection L = ContractFinder.listOfStatusContracts(sGlobalStatus, iCategoryId);
+		Collection L = ContractFinder.listOfStatusContracts(this.sGlobalStatus, iCategoryId);
 		List tags = ContractFinder.listOfContractTagsInList(iCategoryId);
 		DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, iwc.getCurrentLocale());
 		Contract C = null;
@@ -169,11 +171,11 @@ public class ContractViewer extends Block implements Builderaware {
 			T.setCellpadding(0);
 			int row = 1;
 			int col = 1;
-			T.add(Edit.titleText(iwrb.getLocalizedString("nr", "Nr")), col++, row);
+			T.add(Edit.titleText(this.iwrb.getLocalizedString("nr", "Nr")), col++, row);
 			col++;
-			T.add(Edit.titleText(iwrb.getLocalizedString("validfrom", "Valid from")), col++, row);
-			T.add(Edit.titleText(iwrb.getLocalizedString("validfrom", "Valid to")), col++, row);
-			T.add(Edit.titleText(iwrb.getLocalizedString("changed", "Changed")), col++, row);
+			T.add(Edit.titleText(this.iwrb.getLocalizedString("validfrom", "Valid from")), col++, row);
+			T.add(Edit.titleText(this.iwrb.getLocalizedString("validfrom", "Valid to")), col++, row);
+			T.add(Edit.titleText(this.iwrb.getLocalizedString("changed", "Changed")), col++, row);
 			String[] tagKeys = new String[tagCount];
 			for (int k = 0; k < tagCount; k++) {
 				tag = (ContractTag) tags.get(k);
@@ -182,12 +184,12 @@ public class ContractViewer extends Block implements Builderaware {
 			}
 			row++;
 			col = 1;
-			Image propImage = core.getImage("/shared/edit.gif");
+			Image propImage = this.core.getImage("/shared/edit.gif");
 			int i = 1;
 			while (iter.hasNext()) {
 				C = (Contract) iter.next();
 				T.add(Edit.formatText(i++), col++, row);
-				if (isAdmin) {
+				if (this.isAdmin) {
 					T.add(getPropertyLink(propImage, C), col, row);
 				}
 				col++;
@@ -213,7 +215,7 @@ public class ContractViewer extends Block implements Builderaware {
 			T.setWidth("100%");
 		}
 		else {
-			T.add(Edit.formatText(iwrb.getLocalizedString("no_contracts", "No contracts")));
+			T.add(Edit.formatText(this.iwrb.getLocalizedString("no_contracts", "No contracts")));
 		}
 		return T;
 	}
@@ -230,22 +232,22 @@ public class ContractViewer extends Block implements Builderaware {
 		char c = status.charAt(0);
 		switch (c) {
 			case 'C':
-				r = iwrb.getLocalizedString("created", "Created");
+				r = this.iwrb.getLocalizedString("created", "Created");
 				break;
 			case 'P':
-				r = iwrb.getLocalizedString("printed", "Printed");
+				r = this.iwrb.getLocalizedString("printed", "Printed");
 				break;
 			case 'S':
-				r = iwrb.getLocalizedString("signed", "Signed");
+				r = this.iwrb.getLocalizedString("signed", "Signed");
 				break;
 			case 'R':
-				r = iwrb.getLocalizedString("rejected", "Rejected");
+				r = this.iwrb.getLocalizedString("rejected", "Rejected");
 				break;
 			case 'T':
-				r = iwrb.getLocalizedString("terminated", "Terminated");
+				r = this.iwrb.getLocalizedString("terminated", "Terminated");
 				break;
 			case 'E':
-				r = iwrb.getLocalizedString("ended", "Ended");
+				r = this.iwrb.getLocalizedString("ended", "Ended");
 				break;
 		}
 		return r;
@@ -268,8 +270,8 @@ public class ContractViewer extends Block implements Builderaware {
 	}
 
 	public void main(IWContext iwc) {
-		isAdmin = iwc.hasEditPermission(this);
-		core = iwc.getIWMainApplication().getBundle(IW_CORE_BUNDLE_IDENTIFIER);
+		this.isAdmin = iwc.hasEditPermission(this);
+		this.core = iwc.getIWMainApplication().getBundle(IW_CORE_BUNDLE_IDENTIFIER);
 		control(iwc);
 	}
 }

@@ -102,7 +102,7 @@ public class ContractEditorWindow extends IWAdminWindow {
 		int iCategoryId = sCategoryId != null ? Integer.parseInt(sCategoryId) : -1;
 		int saveInfo = getSaveInfo(iwc);
 
-		if (isAdmin) {
+		if (this.isAdmin) {
 
 			// Text initialization
 			String sContractId = null;
@@ -116,15 +116,16 @@ public class ContractEditorWindow extends IWAdminWindow {
 			// Delete Request :
 			else if (iwc.isParameterSet(prmDelete)) {
 				sContractId = iwc.getParameter(prmDelete);
-				confirmDelete(sContractId, iObjInsId);
+				confirmDelete(sContractId, this.iObjInsId);
 				doView = false;
 			}
 			// Object Instance Request :
 			else if (iwc.isParameterSet(prmObjInstId)) {
-				iObjInsId = Integer.parseInt(iwc.getParameter(prmObjInstId));
+				this.iObjInsId = Integer.parseInt(iwc.getParameter(prmObjInstId));
 				doView = false;
-				if (iObjInsId > 0 && saveInfo != SAVECATEGORY)
-					iCategoryId = ContractFinder.getObjectInstanceCategoryId(iObjInsId);
+				if (this.iObjInsId > 0 && saveInfo != this.SAVECATEGORY) {
+					iCategoryId = ContractFinder.getObjectInstanceCategoryId(this.iObjInsId);
+				}
 			}
 
 			if (iwc.isParameterSet("deletefile")) {
@@ -136,18 +137,21 @@ public class ContractEditorWindow extends IWAdminWindow {
 			// end of News initialization
 
 			// Form processing
-			if (saveInfo == SAVECONTENT)
+			if (saveInfo == this.SAVECONTENT) {
 				processForm(iwc, iCategoryId, iContractId);
-			else if (saveInfo == SAVECATEGORY)
-				processCategoryForm(iwc, sCategoryId, iObjInsId);
+			}
+			else if (saveInfo == this.SAVECATEGORY) {
+				processCategoryForm(iwc, sCategoryId, this.iObjInsId);
+			}
 
-			if (iObjInsId > 0) {
-				addCategoryFields(ContractFinder.getContractCategory(iCategoryId), iObjInsId);
+			if (this.iObjInsId > 0) {
+				addCategoryFields(ContractFinder.getContractCategory(iCategoryId), this.iObjInsId);
 			}
 			// doView = false;
 
-			if (doView)
+			if (doView) {
 				doViewContract(iContractId, iCategoryId);
+			}
 		}
 		else {
 			noAccess();
@@ -160,11 +164,13 @@ public class ContractEditorWindow extends IWAdminWindow {
 
 	private int getSaveInfo(IWContext iwc) {
 		if (iwc.getParameter(prmFormProcess) != null) {
-			if (iwc.getParameter(prmFormProcess).equals("Y"))
-				return SAVECONTENT;
-			else if (iwc.getParameter(prmFormProcess).equals("C"))
-				return SAVECATEGORY;
+			if (iwc.getParameter(prmFormProcess).equals("Y")) {
+				return this.SAVECONTENT;
+			}
+			else if (iwc.getParameter(prmFormProcess).equals("C")) {
+				return this.SAVECATEGORY;
 			// doView = false;
+			}
 		}
 		return 0;
 	}
@@ -204,8 +210,9 @@ public class ContractEditorWindow extends IWAdminWindow {
 		if (iwc.isParameterSet(actSave) || iwc.isParameterSet(actSave + ".x")) {
 			if (sName != null) {
 				int id = ContractBusiness.saveCategory(iCatId, iObjInsId, sName, sDesc);
-				if (iwc.isParameterSet("contags"))
+				if (iwc.isParameterSet("contags")) {
 					updateTags(iwc, id);
+				}
 			}
 		}
 		// deleting :
@@ -238,8 +245,9 @@ public class ContractEditorWindow extends IWAdminWindow {
 		List contractTags = null;
 		if (category != null) {
 			contractTags = ContractFinder.listOfContractTags(((Integer) category.getPrimaryKey()).intValue());
-			if (contractTags != null)
+			if (contractTags != null) {
 				count = contractTags.size();
+			}
 		}
 
 		int inputcount = count + 5;
@@ -251,11 +259,11 @@ public class ContractEditorWindow extends IWAdminWindow {
 		// inputTable.setHorizontalZebraColored(Edit.colorLight,Edit.colorWhite);
 		inputTable.setRowColor(1, Edit.colorMiddle);
 		inputTable.add(Edit.formatText("Nr"), 1, 1);
-		inputTable.add(Edit.formatText(iwrb.getLocalizedString("name", "Name")), 2, 1);
-		inputTable.add(Edit.formatText(iwrb.getLocalizedString("info", "Info")), 3, 1);
-		inputTable.add(Edit.formatText(iwrb.getLocalizedString("use", "use")), 4, 1);
-		inputTable.add(Edit.formatText(iwrb.getLocalizedString("list", "list")), 5, 1);
-		inputTable.add(Edit.formatText(iwrb.getLocalizedString("delete", "Delete")), 6, 1);
+		inputTable.add(Edit.formatText(this.iwrb.getLocalizedString("name", "Name")), 2, 1);
+		inputTable.add(Edit.formatText(this.iwrb.getLocalizedString("info", "Info")), 3, 1);
+		inputTable.add(Edit.formatText(this.iwrb.getLocalizedString("use", "use")), 4, 1);
+		inputTable.add(Edit.formatText(this.iwrb.getLocalizedString("list", "list")), 5, 1);
+		inputTable.add(Edit.formatText(this.iwrb.getLocalizedString("delete", "Delete")), 6, 1);
 
 		ContractTag tag;
 		TextInput nameInput, infoInput;
@@ -325,10 +333,12 @@ public class ContractEditorWindow extends IWAdminWindow {
 			bUse = iwc.isParameterSet("contag_usecheck" + i);
 			bList = iwc.isParameterSet("contag_listcheck" + i);
 			ID = Integer.parseInt(iwc.getParameter("contag_idinput" + i));
-			if (bDel)
+			if (bDel) {
 				ContractBusiness.deleteTag(ID);
-			else if (!"".equals(sName))
+			}
+			else if (!"".equals(sName)) {
 				ContractBusiness.saveTag(ID, sName, sInfo, bUse, bList, iCategoryId);
+			}
 
 		}// for loop
 
@@ -341,7 +351,7 @@ public class ContractEditorWindow extends IWAdminWindow {
 			iCategoryId = contract.getCategoryId().intValue();
 		}
 
-		addContractFields(contract, iObjInsId, iCategoryId);
+		addContractFields(contract, this.iObjInsId, iCategoryId);
 
 	}
 
@@ -375,13 +385,13 @@ public class ContractEditorWindow extends IWAdminWindow {
 
 	private void addCategoryFields(ContractCategory eCategory, int iObjInst) {
 
-		String sCategory = iwrb.getLocalizedString("category", "Category");
-		String sName = iwrb.getLocalizedString("name", "Name");
-		String sDesc = iwrb.getLocalizedString("description", "Description");
-		String sFields = iwrb.getLocalizedString("fields", "Fields");
+		String sCategory = this.iwrb.getLocalizedString("category", "Category");
+		String sName = this.iwrb.getLocalizedString("name", "Name");
+		String sDesc = this.iwrb.getLocalizedString("description", "Description");
+		String sFields = this.iwrb.getLocalizedString("fields", "Fields");
 		boolean hasCategory = eCategory != null ? true : false;
 
-		Link newLink = new Link(core.getImage("/shared/create.gif"));
+		Link newLink = new Link(this.core.getImage("/shared/create.gif"));
 		newLink.addParameter(prmCategory, -1);
 		newLink.addParameter(prmObjInstId, iObjInst);
 		newLink.addParameter(prmFormProcess, "C");
@@ -413,15 +423,17 @@ public class ContractEditorWindow extends IWAdminWindow {
 		if (hasCategory) {
 			int id = ((Integer) eCategory.getPrimaryKey()).intValue();
 			int iContractCount = ContractFinder.countContractsInCategory(id);
-			if (eCategory.getName() != null)
+			if (eCategory.getName() != null) {
 				tiName.setContent(eCategory.getName());
-			if (eCategory.getDescription() != null)
+			}
+			if (eCategory.getDescription() != null) {
 				taDesc.setContent(eCategory.getDescription());
+			}
 			addLeft(sFields, getTagChange(eCategory), true, false);
 			catDrop.setSelectedElement(String.valueOf(id));
 
 			if (iContractCount == 0) {
-				Link deleteLink = new Link(core.getImage("/shared/delete.gif"));
+				Link deleteLink = new Link(this.core.getImage("/shared/delete.gif"));
 				deleteLink.addParameter(actDelete, "true");
 				deleteLink.addParameter(prmCategory, id);
 				deleteLink.addParameter(prmObjInstId, iObjInst);
@@ -429,7 +441,7 @@ public class ContractEditorWindow extends IWAdminWindow {
 				catTable.add(deleteLink, 5, 1);
 			}
 		}
-		SubmitButton save = new SubmitButton(iwrb.getImage("save.gif"), actSave);
+		SubmitButton save = new SubmitButton(this.iwrb.getImage("save.gif"), actSave);
 		addSubmitButton(save);
 		addHiddenInput(new HiddenInput(prmObjInstId, String.valueOf(iObjInst)));
 		addHiddenInput(new HiddenInput(prmFormProcess, "C"));
@@ -439,10 +451,10 @@ public class ContractEditorWindow extends IWAdminWindow {
 	private void addContractFields(Contract eContract, int iObjInsId, int iCategoryId) {
 		boolean hasContract = eContract != null;
 
-		String sValidFrom = iwrb.getLocalizedString("validfrom", "Valid from");
-		String sValidTo = iwrb.getLocalizedString("validto", "Valid to");
-		String sStatus = iwrb.getLocalizedString("status", "Status");
-		String sFields = iwrb.getLocalizedString("fields", "Fields");
+		String sValidFrom = this.iwrb.getLocalizedString("validfrom", "Valid from");
+		String sValidTo = this.iwrb.getLocalizedString("validto", "Valid to");
+		String sStatus = this.iwrb.getLocalizedString("status", "Status");
+		String sFields = this.iwrb.getLocalizedString("fields", "Fields");
 
 		IWTimestamp now = IWTimestamp.RightNow();
 		DateInput ValidFrom = new DateInput(prmValFrom, true);
@@ -483,8 +495,9 @@ public class ContractEditorWindow extends IWAdminWindow {
 				}
 				else {
 					String value = eContract.getMetaData(String.valueOf(tag.getID()));
-					if (value != null)
+					if (value != null) {
 						T.add(formatText(value), 2, row);
+					}
 				}
 
 				row++;
@@ -505,7 +518,7 @@ public class ContractEditorWindow extends IWAdminWindow {
 					row++;
 				}
 			}
-			Link generator = new Link(iwrb.getLocalizedImageButton("generate", "Generate"));
+			Link generator = new Link(this.iwrb.getLocalizedImageButton("generate", "Generate"));
 			generator.setWindowToOpen(ContractFilerWindow.class);
 			generator.addParameter(ContractFilerWindow.prmCategoryId, iCategoryId);
 			generator.addParameter(ContractFilerWindow.prmContractId, ((Integer) eContract.getPrimaryKey()).intValue());
@@ -516,17 +529,18 @@ public class ContractEditorWindow extends IWAdminWindow {
 
 		addLeft(sValidFrom, ValidFrom, true);
 		addLeft(sValidTo, ValidTo, true);
-		if (hasContract)
+		if (hasContract) {
 			addLeft(sStatus, status, true);
+		}
 		addLeft(sFields, T, true, false);
 
-		SubmitButton save = new SubmitButton(iwrb.getLocalizedImageButton("save", "Save"), actSave);
+		SubmitButton save = new SubmitButton(this.iwrb.getLocalizedImageButton("save", "Save"), actSave);
 		addSubmitButton(save);
 		addHiddenInput(new HiddenInput(prmFormProcess, "Y"));
 	}
 
 	private Link conLink(ICFile file) {
-		Link L = new Link(iwb.getImage("pdf.gif"));
+		Link L = new Link(this.iwb.getImage("pdf.gif"));
 		L.setURL("/servlet/MediaServlet");
 		// MediaServlet.debug = true;
 		L.addParameter(MediaServlet.getParameter(((Integer) file.getPrimaryKey()).intValue()));
@@ -535,7 +549,7 @@ public class ContractEditorWindow extends IWAdminWindow {
 	}
 
 	private Link delLink(ICFile file, int iCategoryId, int iContractId) {
-		Link L = new Link(core.getImage("/shared/delete.gif"));
+		Link L = new Link(this.core.getImage("/shared/delete.gif"));
 		L.addParameter(prmCategory, iCategoryId);
 		L.addParameter(prmContractId, iContractId);
 		L.addParameter("deletefile", file.getPrimaryKey().toString());
@@ -548,21 +562,21 @@ public class ContractEditorWindow extends IWAdminWindow {
 		Contract eContract = ContractFinder.getContract(iContractId);
 
 		if (eContract != null) {
-			addLeft(iwrb.getLocalizedString("contract_to_delete", "Contract to delete"));
-			addLeft(iwrb.getLocalizedString("confirm_delete", "Are you sure?"));
-			addSubmitButton(new SubmitButton(iwrb.getImage("delete.gif"), actDelete));
+			addLeft(this.iwrb.getLocalizedString("contract_to_delete", "Contract to delete"));
+			addLeft(this.iwrb.getLocalizedString("confirm_delete", "Are you sure?"));
+			addSubmitButton(new SubmitButton(this.iwrb.getImage("delete.gif"), actDelete));
 			addHiddenInput(new HiddenInput(modeDelete, eContract.getPrimaryKey().toString()));
 			addHiddenInput(new HiddenInput(prmFormProcess, "Y"));
 		}
 		else {
-			addLeft(iwrb.getLocalizedString("not_exists", "News already deleted or not available."));
-			addSubmitButton(new CloseButton(iwrb.getImage("close.gif")));
+			addLeft(this.iwrb.getLocalizedString("not_exists", "News already deleted or not available."));
+			addSubmitButton(new CloseButton(this.iwrb.getImage("close.gif")));
 		}
 	}
 
 	private void noAccess() throws IOException, SQLException {
-		addLeft(iwrb.getLocalizedString("no_access", "Login first!"));
-		this.addSubmitButton(new CloseButton(iwrb.getLocalizedString("close", "Closee")));
+		addLeft(this.iwrb.getLocalizedString("no_access", "Login first!"));
+		this.addSubmitButton(new CloseButton(this.iwrb.getLocalizedString("close", "Closee")));
 	}
 
 	private String getStatus(String status) {
@@ -570,22 +584,22 @@ public class ContractEditorWindow extends IWAdminWindow {
 		char c = status.charAt(0);
 		switch (c) {
 			case 'C':
-				r = iwrb.getLocalizedString("created", "Created");
+				r = this.iwrb.getLocalizedString("created", "Created");
 				break;
 			case 'P':
-				r = iwrb.getLocalizedString("printed", "Printed");
+				r = this.iwrb.getLocalizedString("printed", "Printed");
 				break;
 			case 'S':
-				r = iwrb.getLocalizedString("signed", "Signed");
+				r = this.iwrb.getLocalizedString("signed", "Signed");
 				break;
 			case 'R':
-				r = iwrb.getLocalizedString("rejected", "Rejected");
+				r = this.iwrb.getLocalizedString("rejected", "Rejected");
 				break;
 			case 'T':
-				r = iwrb.getLocalizedString("terminated", "Terminated");
+				r = this.iwrb.getLocalizedString("terminated", "Terminated");
 				break;
 			case 'E':
-				r = iwrb.getLocalizedString("ended", "Ended");
+				r = this.iwrb.getLocalizedString("ended", "Ended");
 				break;
 		}
 		return r;
@@ -605,12 +619,12 @@ public class ContractEditorWindow extends IWAdminWindow {
 
 	public void main(IWContext iwc) throws Exception {
 		super.main(iwc);
-		isAdmin = iwc.hasEditPermission(this);
-		isAdmin = true;
-		iwb = getBundle(iwc);
-		core = iwc.getIWMainApplication().getBundle(Builderaware.IW_CORE_BUNDLE_IDENTIFIER);
-		iwrb = getResourceBundle(iwc);
-		addTitle(iwrb.getLocalizedString("contract_editor", "Contract Editor"));
+		this.isAdmin = iwc.hasEditPermission(this);
+		this.isAdmin = true;
+		this.iwb = getBundle(iwc);
+		this.core = iwc.getIWMainApplication().getBundle(Builderaware.IW_CORE_BUNDLE_IDENTIFIER);
+		this.iwrb = getResourceBundle(iwc);
+		addTitle(this.iwrb.getLocalizedString("contract_editor", "Contract Editor"));
 		control(iwc);
 	}
 

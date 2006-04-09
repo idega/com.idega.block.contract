@@ -1,5 +1,5 @@
 /*
- * $Id: ContractBMPBean.java,v 1.25 2006/02/20 11:06:37 laddi Exp $
+ * $Id: ContractBMPBean.java,v 1.26 2006/04/09 11:58:51 laddi Exp $
  *
  * Copyright (C) 2001 Idega hf. All Rights Reserved.
  *
@@ -178,8 +178,10 @@ public class ContractBMPBean extends com.idega.data.GenericEntity implements com
 		if ((status.equalsIgnoreCase(statusCreated)) || (status.equalsIgnoreCase(statusEnded)) || (status.equalsIgnoreCase(statusRejected)) || (status.equalsIgnoreCase(statusSigned)) || (status.equalsIgnoreCase(statusTerminated)) || (status.equalsIgnoreCase(statusResigned)) || (status.equalsIgnoreCase(statusPrinted))) {
 			setColumn(status_, status);
 			setStatusDate(IWTimestamp.RightNow().getSQLDate());
-		} else
+		}
+		else {
 			throw new IllegalStateException("Undefined state : " + status);
+		}
 	}
 	public String getStatus() {
 		return ((String)getColumnValue(status_));
@@ -307,10 +309,12 @@ public class ContractBMPBean extends com.idega.data.GenericEntity implements com
 			Contract C = ((ContractHome)IDOLookup.getHome(Contract.class)).create();
 			C.setStatus(sStatus);
 			C.setValidFrom(ValFrom.getSQLDate());
-			if (userID != -1)
+			if (userID != -1) {
 				C.setUserId(userID);
-			if (ValTo != null)
+			}
+			if (ValTo != null) {
 				C.setValidTo(ValTo.getSQLDate());
+			}
 			C.setCategoryId(iCategoryId);
 			Iterator it = null;
 			if (map != null) {
@@ -344,8 +348,9 @@ public class ContractBMPBean extends com.idega.data.GenericEntity implements com
 			C.setText(text);
 			C.setValidFrom(ValFrom.getSQLDate());
 			C.setUserId(userId);
-			if (ValTo != null)
+			if (ValTo != null) {
 				C.setValidTo(ValTo.getSQLDate());
+			}
 			C.setCategoryId(iCategoryId);
 			C.store();
 			//				ContractWriter.writeText(C.getID(), iCategoryId);
