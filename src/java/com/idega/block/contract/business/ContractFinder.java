@@ -1,5 +1,5 @@
 /*
- * $Id: ContractFinder.java,v 1.13 2006/04/09 11:58:51 laddi Exp $
+ * $Id: ContractFinder.java,v 1.10.4.1 2007/01/12 19:32:12 idegaweb Exp $
  *
  * Copyright (C) 2001 Idega hf. All Rights Reserved.
  *
@@ -31,7 +31,7 @@ import com.idega.core.component.data.ICObjectInstanceHome;
 import com.idega.data.EntityFinder;
 import com.idega.data.IDOLookup;
 import com.idega.data.IDOLookupException;
-
+;
 /**
 
  * Title:        idegaclasses
@@ -281,7 +281,7 @@ public abstract class ContractFinder
 				while(iter.hasNext())
 				{
 					Contract C = (Contract) iter.next();
-					H.put(C.getPrimaryKey(), C);
+					H.put( C.getPrimaryKey(), C);
 				}
 				return H;
 			}

@@ -1,5 +1,5 @@
 /*
- * $Id: ContractBMPBean.java,v 1.26 2006/04/09 11:58:51 laddi Exp $
+ * $Id: ContractBMPBean.java,v 1.24.2.1 2007/01/12 19:32:16 idegaweb Exp $
  *
  * Copyright (C) 2001 Idega hf. All Rights Reserved.
  *

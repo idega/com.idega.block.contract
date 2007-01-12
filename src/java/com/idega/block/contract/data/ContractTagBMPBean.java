@@ -1,6 +1,6 @@
 /*
 
- * $Id: ContractTagBMPBean.java,v 1.9 2006/02/20 11:06:37 laddi Exp $
+ * $Id: ContractTagBMPBean.java,v 1.7.2.1 2007/01/12 19:32:16 idegaweb Exp $
 
  *
 
@@ -196,4 +196,7 @@ public class ContractTagBMPBean extends com.idega.data.GenericEntity implements 
 		 sql.appendAndEquals(getColumnNameCategoryId(), categoryId);
 		 return super.idoFindPKsBySQL(sql.toString());  
 	}	
+
+
 }
+

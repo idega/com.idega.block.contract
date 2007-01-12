@@ -1,5 +1,5 @@
 /*
- * $Id: ContractBusiness.java,v 1.14 2006/04/09 11:58:51 laddi Exp $
+ * $Id: ContractBusiness.java,v 1.13.4.1 2007/01/12 19:32:12 idegaweb Exp $
  *
  * Copyright (C) 2001 Idega hf. All Rights Reserved.
  *

@@ -23,13 +23,14 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Title: Description: Copyright: Copyright (c) 2001 Company:
- * 
+ * Title:
+ * Description:
+ * Copyright:    Copyright (c) 2001
+ * Company:
  * @author
  * @version 1.0
  */
 public class ContractViewer extends Block implements Builderaware {
-
 	protected final int ACT1 = 1, ACT2 = 2, ACT3 = 3, ACT4 = 4, ACT5 = 5;
 	private final static String IW_BUNDLE_IDENTIFIER = "com.idega.block.contract";
 	protected boolean isAdmin = false;
@@ -81,15 +82,14 @@ public class ContractViewer extends Block implements Builderaware {
 		Form F = new Form();
 		F.add(T);
 		add(F);
-		// add(Edit.formatText(iwrb.getLocalizedString("access_denied","Access
-		// denied")));
-		// add(String.valueOf(iSubjectId));
+		//  add(Edit.formatText(iwrb.getLocalizedString("access_denied","Access denied")));
+		//add(String.valueOf(iSubjectId));
 	}
-
+	
 	public String getBundleIdentifier() {
 		return IW_BUNDLE_IDENTIFIER;
 	}
-
+	
 	private PresentationObject getAdminPart(int iCategoryId, boolean enableDelete, boolean newObjInst, boolean info, IWContext iwc) {
 		Table T = new Table(3, 1);
 		T.setCellpadding(2);
@@ -131,13 +131,23 @@ public class ContractViewer extends Block implements Builderaware {
 
 		return T;
 	}
-
+	
 	public PresentationObject makeLinkTable(int menuNr) {
 		Table LinkTable = new Table(6, 1);
 
 		return LinkTable;
 	}
+	
+	private Form subjectForm() {
+		Form myForm = new Form();
+		DropdownMenu status = statusDrop(this.conPrm, this.sGlobalStatus);
+		status.setToSubmit();
+		Edit.setStyle(status);
+		myForm.add(status);
 
+		return myForm;
+	}
+	
 	private PresentationObject statusForm() {
 		DropdownMenu status = statusDrop(this.conPrm, this.sGlobalStatus);
 		status.setToSubmit();
@@ -150,7 +160,7 @@ public class ContractViewer extends Block implements Builderaware {
 
 		return T;
 	}
-
+	
 	private PresentationObject getContractTable(IWContext iwc, int iCategoryId) {
 		Collection L = ContractFinder.listOfStatusContracts(this.sGlobalStatus, iCategoryId);
 		List tags = ContractFinder.listOfContractTagsInList(iCategoryId);
@@ -186,9 +196,9 @@ public class ContractViewer extends Block implements Builderaware {
 			col = 1;
 			Image propImage = this.core.getImage("/shared/edit.gif");
 			int i = 1;
-			while (iter.hasNext()) {
+			while(iter.hasNext()){
 				C = (Contract) iter.next();
-				T.add(Edit.formatText(i++), col++, row);
+				T.add(Edit.formatText(i ++), col++, row);
 				if (this.isAdmin) {
 					T.add(getPropertyLink(propImage, C), col, row);
 				}
@@ -219,40 +229,37 @@ public class ContractViewer extends Block implements Builderaware {
 		}
 		return T;
 	}
-
 	private Link getPropertyLink(PresentationObject obj, Contract C) {
 		Link L = new Link(obj);
 		L.setWindowToOpen(ContractEditorWindow.class);
 		L.addParameter(ContractEditorWindow.prmContractId, C.getPrimaryKey().toString());
 		return L;
 	}
-
 	private String getStatus(String status) {
 		String r = "";
 		char c = status.charAt(0);
 		switch (c) {
-			case 'C':
+			case 'C' :
 				r = this.iwrb.getLocalizedString("created", "Created");
 				break;
-			case 'P':
+			case 'P' :
 				r = this.iwrb.getLocalizedString("printed", "Printed");
 				break;
-			case 'S':
+			case 'S' :
 				r = this.iwrb.getLocalizedString("signed", "Signed");
 				break;
-			case 'R':
+			case 'R' :
 				r = this.iwrb.getLocalizedString("rejected", "Rejected");
 				break;
-			case 'T':
+			case 'T' :
 				r = this.iwrb.getLocalizedString("terminated", "Terminated");
 				break;
-			case 'E':
+			case 'E' :
 				r = this.iwrb.getLocalizedString("ended", "Ended");
 				break;
 		}
 		return r;
 	}
-
 	private DropdownMenu statusDrop(String name, String selected) {
 		DropdownMenu drp = new DropdownMenu(name);
 		drp.addMenuElement("C", getStatus("C"));
@@ -264,11 +271,9 @@ public class ContractViewer extends Block implements Builderaware {
 		drp.setSelectedElement(selected);
 		return drp;
 	}
-
 	public boolean deleteBlock(int iObjectInstanceId) {
 		return ContractBusiness.deleteBlock(iObjectInstanceId);
 	}
-
 	public void main(IWContext iwc) {
 		this.isAdmin = iwc.hasEditPermission(this);
 		this.core = iwc.getIWMainApplication().getBundle(IW_CORE_BUNDLE_IDENTIFIER);
