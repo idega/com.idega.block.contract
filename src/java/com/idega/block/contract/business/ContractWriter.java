@@ -14,6 +14,7 @@ import com.idega.block.contract.data.ContractTag;
 import com.idega.block.contract.data.ContractText;
 import com.idega.core.file.data.ICFile;
 import com.idega.core.file.data.ICFileHome;
+import com.idega.core.file.util.MimeTypeUtil;
 import com.idega.data.IDOLookup;
 import com.idega.io.MemoryFileBuffer;
 import com.idega.io.MemoryInputStream;
@@ -156,7 +157,7 @@ public class ContractWriter
 					((ContractHome) IDOLookup.getHome(Contract.class)).findByPrimaryKey(new Integer(ids[0]));
 				ICFile file = ((ICFileHome) IDOLookup.getHome(ICFile.class)).create();
 				file.setFileValue(mis);
-				file.setMimeType("application/x-pdf");
+				file.setMimeType(MimeTypeUtil.MIME_TYPE_PDF_2);
 				file.setName(fileName + ".pdf");
 				file.setFileSize(buffer.length());
 				file.store();
